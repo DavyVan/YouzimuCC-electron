@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <style>
+        body .container {
+            margin-top: 25%
+        }
+
+        #submit {
+            width: 200px;
+            height: 50px;
+        }
+
+        #submit-spinner {
+            /* margin-right: 10px; */
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        #submit-button-text {
+            padding-top: 15px;
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-info" type="button" id="button-addon1">选择文件...</button>
+            </div>
+            <input type="text" class="form-control" placeholder="<--请点击左侧按钮选择音频文件，然后点击提交↓" readonly>
+        </div>
+        <div class="row justify-content-md-center">
+            <button type="button" class="btn btn-info" id="submit">
+                <span class="spinner-border spinner-border-sm" id="submit-spinner" role="status" aria-hidden="true" hidden></span>
+                <span id="submit-button-text">提交</span>
+            </button>
+        </div>
+    </div>
+</body>
