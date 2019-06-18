@@ -16,5 +16,8 @@
     },
     "devDependencies": {
         "electron": "^5.0.3"
+    },
+    "dependencies": {
+        "ibm-watson": "^4.2.1"
     }
 }

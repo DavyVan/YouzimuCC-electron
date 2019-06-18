@@ -1,6 +1,6 @@
 'use strict';
 
-const {app, BrowserWindow, dialog} = require('electron');
+const {app, BrowserWindow, dialog, ipcMain} = require('electron');
 
 app.on('ready', function () {
     var mainWin = new BrowserWindow({
@@ -15,3 +15,4 @@ app.on('ready', function () {
     mainWin.loadURL('file://' + __dirname + '/app/index.html');
     mainWin.webContents.openDevTools({mode: "detach"});
 });
+
