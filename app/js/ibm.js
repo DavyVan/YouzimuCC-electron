@@ -26,15 +26,17 @@ function doRecognize(filename) {
         console.log(`状态码: ${res.statusCode}`);
         // console.log(`响应头: ${JSON.stringify(res.headers)}`);
         // console.log(res);
-        res.on('data', (chunk)=>{
+        res.on('data', (chunk)=>{   // Receiving data
             ipcRenderer.send('request-receiving');
             console.log('Data chunk received.');
             data += chunk;
         });
-        res.on('end', ()=>{
+        res.on('end', ()=>{         // All data received
             ipcRenderer.send('request-received');
             console.log('Response end.');
             console.log(data);
+            var parsedData = parseResult(data.trim());
+            console.log(parsedData);
         });
     });
 
@@ -50,6 +52,21 @@ function doRecognize(filename) {
         console.log('request end callback');
         ipcRenderer.send('request-sent');
     });
+}
+
+// Input: result returned from IBM Cloud.{results=[{alternatives=[{timestamps=[[,,]], confidence, transcript}], final}], result_index}
+// Output: parsed result. [{start, end, transcript}]
+function parseResult(result) {
+    // result = require('./sampledata').trim();
+    let resultObj = JSON.parse(result).results;
+    var parsedResult = [];
+    for (let item in resultObj) {
+        item = resultObj[item].alternatives[0];
+        let timestamps = item.timestamps;
+        let transcript = item.transcript;
+        parsedResult.push({start: timestamps[0][1], end: timestamps[timestamps.length-1][2], transcript});
+    }
+    return parsedResult;
 }
 
 module.exports = {
