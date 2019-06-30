@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <style>
+        #export {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <button type="button" class="btn btn-info" id="export">
+                <span class="spinner-border spinner-border-sm" id="export-spinner" role="status" aria-hidden="true"
+                    hidden></span>
+                <span id="export-button-text">导出srt</span>
+            </button>
+        </div>
+        <table class="table table-bordered table-striped table-hover table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" style="width: 40px">#</th>
+                    <th scope="col" style="width: 100px">开始时刻</th>
+                    <th scope="col" style="width: 100px">结束时刻</th>
+                    <th scope="col">文本</th>
+                </tr>
+            </thead>
+            <tbody id="resultsTbody">
+                <tr>
+                    <th scope="row">1</th>
+                    <td>111.1</td>
+                    <td>111.2</td>
+                    <td class="text-justify">sfdsafdsf</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>222.1</td>
+                    <td>222.2</td>
+                    <td class="text-justify">sfdsafdsf</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>333.1</td>
+                    <td>333.2</td>
+                    <td class="text-justify">Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit
+                        amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus. Praeterea iter est quasdam
+                        res quas ex communi. At nos hinc posthac, sitientis piros Afros. Petierunt uti sibi concilium
+                        totius Galliae in diem certam indicere. Cras mattis iudicium purus sit amet fermentum.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="js/result.js"></script>
+</body>
+
+</html>

@@ -6,6 +6,10 @@ const http = require('https');
 const {remote, ipcRenderer} = require('electron');
 
 function doRecognize(filename) {
+    // debug
+    // let result = require('./sampledata').trim();
+    // result = parseResult(result);
+    // ipcRenderer.send('show-result', result);
     // return;
     /***
      * Native HTTP
@@ -36,7 +40,7 @@ function doRecognize(filename) {
             console.log('Response end.');
             console.log(data);
             var parsedData = parseResult(data.trim());
-            console.log(parsedData);
+            ipcRenderer.send('show-result', parsedData);
         });
     });
 
