@@ -7,18 +7,37 @@
         #export {
             margin-top: 20px;
             margin-bottom: 20px;
+            width: 100px;
+            height: 40px;
+        }
+
+        #export-spinner {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        #export-button-text {
+            padding-top: 12px;
+        }
+
+        #notification-text {
+            margin-top: 20px;
+            height: 1rem;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="row justify-content-md-center">
-            <button type="button" class="btn btn-info" id="export">
-                <span class="spinner-border spinner-border-sm" id="export-spinner" role="status" aria-hidden="true"
-                    hidden></span>
-                <span id="export-button-text">导出srt</span>
-            </button>
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-auto">
+                <button type="button" class="btn btn-info" id="export">
+                    <span class="spinner-border spinner-border-sm" id="export-spinner" role="status" aria-hidden="true"
+                        hidden></span>
+                    <span id="export-button-text">导出srt</span>
+                </button>
+                <span id="notification-text" hidden>正在写入……</span>
+            </div>
         </div>
         <table class="table table-bordered table-striped table-hover table-sm">
             <thead class="thead-dark">
