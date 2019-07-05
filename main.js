@@ -18,7 +18,7 @@ app.on('ready', function () {
     });
     mainWin.setMenu(null);
     mainWin.loadURL('file://' + __dirname + '/app/index.html');
-    mainWin.webContents.openDevTools({ mode: "detach" });
+    // mainWin.webContents.openDevTools({ mode: "detach" });
 
     ipcMain.on('request-start', () => {
         progressWin = new BrowserWindow({
@@ -34,14 +34,23 @@ app.on('ready', function () {
         progressWin.setMenu(null);
         progressWin.loadURL('file://' + __dirname + '/app/progress.html');
         // progressWin.webContents.openDevTools({mode: 'detach'});
+
+        progressWin.on('closed', ()=>{
+            mainWin.webContents.send('request-abort');
+            mainWin.webContents.send('result-closed');
+        });
     });
 
     ipcMain.on('request-error', (event, msg) => {
-        progressWin.webContents.send('request-error', msg);
+        if (!progressWin.isDestroyed()) {
+            progressWin.webContents.send('request-error', msg);
+        }
     });
 
     ipcMain.on('request-sent', () => {
-        progressWin.webContents.send('request-sent');
+        if (!progressWin.isDestroyed()) {
+            progressWin.webContents.send('request-sent');
+        }
     });
 
     ipcMain.on('request-receiving', () => {
@@ -49,7 +58,9 @@ app.on('ready', function () {
     });
 
     ipcMain.on('request-received', () => {
-        progressWin.webContents.send('request-received');
+        if (!progressWin.isDestroyed()) {       // Close progressWin when receiving will trigger this bug
+            progressWin.webContents.send('request-received');
+        }
     });
 
     ipcMain.on('show-result', (event, parsedData) => {
@@ -76,7 +87,11 @@ app.on('ready', function () {
         resultWin.webContents.on('dom-ready', ()=>{
             resultWin.webContents.send('result', parsedData);
         });
-        resultWin.webContents.openDevTools({ mode: 'detach' });
+        // resultWin.webContents.openDevTools({ mode: 'detach' });
+
+        resultWin.on('closed', ()=>{
+            mainWin.webContents.send('result-closed');
+        });
     });
 });
 

@@ -3,6 +3,7 @@
 const {ipcRenderer} = require('electron');
 
 var textDivEl = document.querySelector('#text');
+var rxCounter = 0;
 
 ipcRenderer.on('request-error', (event, msg)=>{
     console.log('request-error:'+msg);
@@ -14,7 +15,8 @@ ipcRenderer.on('request-sent', ()=>{
 });
 
 ipcRenderer.on('request-receiving', ()=>{
-    textDivEl.innerHTML = '正在接收结果……';
+    rxCounter++;
+    textDivEl.innerHTML = '正在接收结果……' + rxCounter;
 });
 
 ipcRenderer.on('request-received', ()=>{

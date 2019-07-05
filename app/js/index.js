@@ -43,3 +43,9 @@ submitButtonEl.addEventListener('click', ()=>{
 
     requester.doRecognize(filename[0]);
 });
+
+ipcRenderer.on('result-closed', ()=>{
+    submitButtonEl.removeAttribute('disabled');
+    submitSpinnerEl.setAttribute('hidden', true);
+    submitButtonTextEl.removeAttribute('hidden');
+});

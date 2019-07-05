@@ -1,6 +1,6 @@
 {
     "name": "youzimucc-electron",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "license": "MIT",
     "contributors": [
         {
@@ -10,12 +10,12 @@
     "main": "./main.js",
     "scripts": {
         "start": "electron .",
-        "package": "",
+        "zip": "electron-packager . YouzimuCC --platform=win32 --arch=x64 --overwrite --out=./build/",
         "wix": "",
         "dmg": ""
     },
     "devDependencies": {
-        "electron": "^5.0.3"
-    },
-    "dependencies": {}
+        "electron": "^5.0.3",
+        "electron-packager": "^14.0.1"
+    }
 }

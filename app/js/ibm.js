@@ -36,6 +36,7 @@ function doRecognize(filename) {
             data += chunk;
         });
         res.on('end', ()=>{         // All data received
+            if (req.aborted) return;
             ipcRenderer.send('request-received');
             console.log('Response end.');
             console.log(data);
@@ -55,6 +56,11 @@ function doRecognize(filename) {
     req.end(()=>{
         console.log('request end callback');
         ipcRenderer.send('request-sent');
+    });
+
+    ipcRenderer.on('request-abort', ()=>{
+        req.abort();
+        console.log('Request aborted.');
     });
 }
 
