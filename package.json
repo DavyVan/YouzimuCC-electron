@@ -12,11 +12,12 @@
         "start": "electron .",
         "zip": "electron-packager . YouzimuCC --platform=win32 --arch=x64 --overwrite --out=./build/ --icon=./app/img/icon-dark.ico",
         "wix": "",
-        "app": "electron-packager . YouzimuCC --platform=darwin --arch=x64 --overwrite --out=./build/ --icon=./app/img/icon.icns",
-        "dmg": ""
+        "app": "electron-packager . YouzimuCC --platform=darwin --arch=x64 --overwrite --out=./build/ --icon=./app/img/icon-dark.icns",
+        "dmg": "electron-installer-dmg ./build/YouzimuCC-darwin-x64/YouzimuCC.app YouzimuCC"
     },
     "devDependencies": {
         "electron": "^5.0.6",
+        "electron-installer-dmg": "^3.0.0",
         "electron-packager": "^14.0.1"
     }
 }
