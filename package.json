@@ -12,6 +12,7 @@
         "start": "electron .",
         "zip": "electron-packager . YouzimuCC --platform=win32 --arch=x64 --overwrite --out=./build/",
         "wix": "",
+        "app": "electron-packager . YouzimuCC --platform=darwin --arch=x64 --overwrite --out=./build/",
         "dmg": ""
     },
     "devDependencies": {
