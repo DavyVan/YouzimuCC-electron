@@ -10,13 +10,13 @@
     "main": "./main.js",
     "scripts": {
         "start": "electron .",
-        "zip": "electron-packager . YouzimuCC --platform=win32 --arch=x64 --overwrite --out=./build/",
+        "zip": "electron-packager . YouzimuCC --platform=win32 --arch=x64 --overwrite --out=./build/ --icon=./app/img/icon-dark.ico",
         "wix": "",
-        "app": "electron-packager . YouzimuCC --platform=darwin --arch=x64 --overwrite --out=./build/",
+        "app": "electron-packager . YouzimuCC --platform=darwin --arch=x64 --overwrite --out=./build/ --icon=./app/img/icon.icns",
         "dmg": ""
     },
     "devDependencies": {
-        "electron": "^5.0.3",
+        "electron": "^5.0.6",
         "electron-packager": "^14.0.1"
     }
 }

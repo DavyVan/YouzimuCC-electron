@@ -14,11 +14,20 @@ app.on('ready', function () {
         resizable: false,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        title: 'YouzimuCC'
     });
     mainWin.setMenu(null);
     mainWin.loadURL('file://' + __dirname + '/app/index.html');
     // mainWin.webContents.openDevTools({ mode: "detach" });
+    mainWin.on('focus', ()=>{
+        if (progressWin !== null) {
+            progressWin.focus();
+        }
+        if (resultWin !== null) {
+            resultWin.focus();
+        }
+    });
 
     ipcMain.on('request-start', () => {
         progressWin = new BrowserWindow({
@@ -29,26 +38,30 @@ app.on('ready', function () {
                 nodeIntegration: true
             },
             parent: mainWin,
-            modal: true
+            modal: false,
+            title: '请求进度'
         });
         progressWin.setMenu(null);
         progressWin.loadURL('file://' + __dirname + '/app/progress.html');
         // progressWin.webContents.openDevTools({mode: 'detach'});
 
         progressWin.on('closed', ()=>{
-            mainWin.webContents.send('request-abort');
-            mainWin.webContents.send('result-closed');
+            progressWin = null;
+            if (resultWin === null) {
+                mainWin.webContents.send('request-abort');
+                mainWin.webContents.send('result-closed');      // reset index window
+            }
         });
     });
 
     ipcMain.on('request-error', (event, msg) => {
-        if (!progressWin.isDestroyed()) {
+        if (!(progressWin === null || progressWin.isDestroyed())) {
             progressWin.webContents.send('request-error', msg);
         }
     });
 
     ipcMain.on('request-sent', () => {
-        if (!progressWin.isDestroyed()) {
+        if (!(progressWin === null || progressWin.isDestroyed())) {
             progressWin.webContents.send('request-sent');
         }
     });
@@ -58,16 +71,12 @@ app.on('ready', function () {
     });
 
     ipcMain.on('request-received', () => {
-        if (!progressWin.isDestroyed()) {       // Close progressWin when receiving will trigger this bug
+        if (!(progressWin === null || progressWin.isDestroyed())) {       // Close progressWin when receiving will trigger this bug
             progressWin.webContents.send('request-received');
         }
     });
 
     ipcMain.on('show-result', (event, parsedData) => {
-        // close progress window
-        progressWin.close();
-        progressWin = null;
-
         // open result window
         screen = require('electron').screen;
         const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -79,7 +88,8 @@ app.on('ready', function () {
                 nodeIntegration: true
             },
             parent: mainWin,
-            modal: true
+            modal: false,
+            title: '结果'
         });
         resultWin.setMenu(null);
         resultWin.loadURL('file://' + __dirname + '/app/result.html');
@@ -90,8 +100,14 @@ app.on('ready', function () {
         // resultWin.webContents.openDevTools({ mode: 'detach' });
 
         resultWin.on('closed', ()=>{
+            resultWin = null;
             mainWin.webContents.send('result-closed');
         });
+
+        // close progress window
+        // Put this after the creation of resultWin, we can decide the close of progressWin is a abortion or on request finish
+        progressWin.close();
+        progressWin = null;
     });
 });
 
