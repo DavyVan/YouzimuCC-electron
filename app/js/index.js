@@ -35,6 +35,7 @@ submitButtonEl.addEventListener('click', ()=>{
 
     // Disable the button and show spinner
     submitButtonEl.setAttribute('disabled', true);
+    chooseFileButtonEl.setAttribute('disabled', true);
     submitSpinnerEl.removeAttribute('hidden');
     submitButtonTextEl.setAttribute('hidden', true);
 
@@ -46,6 +47,7 @@ submitButtonEl.addEventListener('click', ()=>{
 
 ipcRenderer.on('result-closed', ()=>{
     submitButtonEl.removeAttribute('disabled');
+    chooseFileButtonEl.removeAttribute('disabled');
     submitSpinnerEl.setAttribute('hidden', true);
     submitButtonTextEl.removeAttribute('hidden');
 });

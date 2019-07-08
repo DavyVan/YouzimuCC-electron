@@ -63,3 +63,4 @@ typings/
 # FQ
 ibm-credentials.js
 build/
+.DS_Store
