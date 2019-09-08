@@ -1,6 +1,6 @@
 'use strict';
 
-const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, Menu, MenuItem } = require('electron');
 var screen = null;
 
 var mainWin = null;
@@ -17,9 +17,18 @@ app.on('ready', function () {
         },
         title: 'YouzimuCC'
     });
+    // var menu = new Menu();
+    // menu.append(new MenuItem({
+    //     click: (menuItem, browserWindow, event)=>{
+    //         // TODO: open setting window
+    //     },
+    //     label: '设置',
+    //     sublabel: '111',
+    //     id: 'settings'
+    // }));
     mainWin.setMenu(null);
     mainWin.loadURL('file://' + __dirname + '/app/index.html');
-    // mainWin.webContents.openDevTools({ mode: "detach" });
+    mainWin.webContents.openDevTools({ mode: "detach" });
     mainWin.on('focus', ()=>{
         if (progressWin !== null) {
             progressWin.focus();

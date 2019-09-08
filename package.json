@@ -19,5 +19,8 @@
         "electron": "^5.0.6",
         "electron-installer-dmg": "^3.0.0",
         "electron-packager": "^14.0.1"
+    },
+    "dependencies": {
+        "aws-sdk": "^2.524.0"
     }
 }

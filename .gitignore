@@ -64,3 +64,4 @@ typings/
 ibm-credentials.js
 build/
 .DS_Store
+aws-credentials.js
