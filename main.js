@@ -6,6 +6,7 @@ var screen = null;
 var mainWin = null;
 var progressWin = null;
 var resultWin = null;
+var settingsWin = null;
 
 app.on('ready', function () {
     mainWin = new BrowserWindow({
@@ -17,28 +18,24 @@ app.on('ready', function () {
         },
         title: 'YouzimuCC'
     });
-    // var menu = new Menu();
-    // menu.append(new MenuItem({
-    //     click: (menuItem, browserWindow, event)=>{
-    //         // TODO: open setting window
-    //     },
-    //     label: '设置',
-    //     sublabel: '111',
-    //     id: 'settings'
-    // }));
     mainWin.setMenu(null);
     mainWin.loadURL('file://' + __dirname + '/app/index.html');
-    mainWin.webContents.openDevTools({ mode: "detach" });
-    mainWin.on('focus', ()=>{
-        if (progressWin !== null) {
-            progressWin.focus();
-        }
-        if (resultWin !== null) {
-            resultWin.focus();
-        }
-    });
+    // mainWin.webContents.openDevTools({ mode: "detach" });
+    // mainWin.on('focus', ()=>{
+    //     if (progressWin !== null) {
+    //         progressWin.focus();
+    //     }
+    //     if (resultWin !== null) {
+    //         resultWin.focus();
+    //     }
+    //     if (settingsWin !== null) {
+    //         settingsWin.focus();
+    //     }
+    // });
 
     ipcMain.on('request-start', () => {
+        mainWin.setEnabled(false);
+
         progressWin = new BrowserWindow({
             width: 300,
             height: 150,
@@ -60,6 +57,7 @@ app.on('ready', function () {
                 mainWin.webContents.send('request-abort');
                 mainWin.webContents.send('result-closed');      // reset index window
             }
+            mainWin.setEnabled(true);
         });
     });
 
@@ -87,6 +85,8 @@ app.on('ready', function () {
 
     ipcMain.on('show-result', (event, parsedData) => {
         // open result window
+        mainWin.setEnabled(false);
+
         screen = require('electron').screen;
         const { width, height } = screen.getPrimaryDisplay().workAreaSize;
         resultWin = new BrowserWindow({
@@ -111,12 +111,35 @@ app.on('ready', function () {
         resultWin.on('closed', ()=>{
             resultWin = null;
             mainWin.webContents.send('result-closed');
+            mainWin.setEnabled(true);
         });
 
         // close progress window
         // Put this after the creation of resultWin, we can decide the close of progressWin is a abortion or on request finish
         progressWin.close();
         progressWin = null;
+    });
+
+    ipcMain.on('open-settings', ()=>{
+        mainWin.setEnabled(false);
+        settingsWin = new BrowserWindow({
+            width: 700,
+            height: 600,
+            resizable: false,
+            webPreferences: {
+                nodeIntegration: true
+            },
+            parent: mainWin,
+            modal: false,
+            title: '设置'
+        });
+        settingsWin.setMenu(null);
+        settingsWin.loadURL('file://' + __dirname + '/app/settings.html');
+
+        settingsWin.on('closed', ()=>{
+            settingsWin = null;
+            mainWin.setEnabled(true);
+        });
     });
 });
 

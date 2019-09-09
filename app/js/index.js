@@ -9,6 +9,7 @@ var chooseFileButtonEl = document.querySelector('#choose-file');
 var filenameTextEl = document.querySelector('#filename');
 var submitSpinnerEl = document.querySelector('#submit-spinner');
 var submitButtonTextEl = document.querySelector('#submit-button-text');
+var settingsButtonEl = document.querySelector('#settings-btn');
 var filename = '';
 
 // Disable submit button when start up
@@ -50,4 +51,8 @@ ipcRenderer.on('result-closed', ()=>{
     chooseFileButtonEl.removeAttribute('disabled');
     submitSpinnerEl.setAttribute('hidden', true);
     submitButtonTextEl.removeAttribute('hidden');
+});
+
+settingsButtonEl.addEventListener('click', ()=>{
+    ipcRenderer.send('open-settings');
 });
