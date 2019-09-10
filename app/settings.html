@@ -3,10 +3,115 @@
     <head>
         <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
         <style>
+            #cloud-provider-div {
+                margin-top: 15%;
+            }
+
+            #region-div, #language-div {
+                margin-top: 5%;
+            }
+
+            .container {
+                max-width: 600px;
+            }
+            
+            #notice-div {
+                color: red;
+                margin-top: 10%;
+            }
+
+            #buttons-div {
+                margin-top: 5%;
+            }
+
+            #buttons-div button {
+                width: 100%;
+            }
         </style>
     </head>
     <body>
-        Settings
+        <div class="container">
+            <div class="row" id="cloud-provider-div">
+                <legend class="col-form-label col-sm-3 pt-0">服务提供商：</legend>
+                <div class="col-sm-8">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input class="custom-control-input" type="radio" name="cloudProvider" id="cloud-provider-radio-ibm" value="ibm">
+                        <label class="custom-control-label" for="cloud-provider-radio-ibm">IBM Cloud</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input class="custom-control-input" type="radio" name="cloudProvider" id="cloud-provider-radio-aws" value="aws">
+                        <label class="custom-control-label" for="cloud-provider-radio-aws">Amazon Web Service (AWS)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="region-div">
+                <legend class="col-form-label col-sm-3 pt-0">服务器位置：</legend>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input class="custom-control-input" type="radio" name="region" id="region-radio-1" value="1">
+                                <label class="custom-control-label" for="region-radio-1">北京</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input class="custom-control-input" type="radio" name="region" id="region-radio-2" value="2">
+                                <label class="custom-control-label" for="region-radio-2">天津</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input class="custom-control-input" type="radio" name="region" id="region-radio-3" value="3">
+                                <label class="custom-control-label" for="region-radio-3">上海</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input class="custom-control-input" type="radio" name="region" id="region-radio-4" value="4">
+                                <label class="custom-control-label" for="region-radio-4">重庆</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input class="custom-control-input" type="radio" name="region" id="region-radio-5" value="5">
+                                <label class="custom-control-label" for="region-radio-5">河北</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="region-undefined-div" hidden>请先选择服务提供商</div>
+                </div>
+            </div>
+            <div class="row" id="language-div">
+                <legend class="col-form-label col-sm-3 pt-1">要识别的语言：</legend>
+                <div class="col-sm-4">
+                    <select class="custom-select custom-select-sm" id="language-select">
+                        <option value="English">目前仅支持英语</option>
+                        <!-- <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option> -->
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center" id="notice-div">
+                    地区选择可以参考cloudping.info网站的测量结果
+                </div>
+            </div>
+            <div class="row justify-content-center" id="buttons-div">
+                <div class="col col-3">
+                    <button type="button" class="btn btn-outline-danger" id="cancel-btn">取消</button>
+                </div>
+                <div class="col col-3">
+                    <button type="button" class="btn btn-info" id="confirm-btn">确认</button>
+                </div>
+            </div>
+        </div>
         <script src="js/settings.js"></script>
     </body>
 </html>

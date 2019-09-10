@@ -135,6 +135,7 @@ app.on('ready', function () {
         });
         settingsWin.setMenu(null);
         settingsWin.loadURL('file://' + __dirname + '/app/settings.html');
+        settingsWin.webContents.openDevTools({mode: 'detach'});
 
         settingsWin.on('closed', ()=>{
             settingsWin = null;
