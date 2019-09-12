@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
         <style>
             #cloud-provider-div {
-                margin-top: 15%;
+                margin-top: 10%;
             }
 
             #region-div, #language-div {
@@ -12,7 +12,8 @@
             }
 
             .container {
-                max-width: 600px;
+                max-width: 700px;
+                padding-left: 30px;
             }
             
             #notice-div {
@@ -26,6 +27,9 @@
 
             #buttons-div button {
                 width: 100%;
+            }
+            .col-sm-6, .col-sm-8, .col-sm-4 {
+                padding-left: 0px;
             }
         </style>
     </head>
@@ -46,7 +50,7 @@
             </div>
             <div class="row" id="region-div">
                 <legend class="col-form-label col-sm-3 pt-0">服务器位置：</legend>
-                <div class="col-sm-8">
+                <div class="col-sm-9" id="region-radio-div">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="custom-control custom-radio custom-control-inline">
@@ -61,29 +65,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input class="custom-control-input" type="radio" name="region" id="region-radio-3" value="3">
-                                <label class="custom-control-label" for="region-radio-3">上海</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input class="custom-control-input" type="radio" name="region" id="region-radio-4" value="4">
-                                <label class="custom-control-label" for="region-radio-4">重庆</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input class="custom-control-input" type="radio" name="region" id="region-radio-5" value="5">
-                                <label class="custom-control-label" for="region-radio-5">河北</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="region-undefined-div" hidden>请先选择服务提供商</div>
                 </div>
             </div>
             <div class="row" id="language-div">
@@ -91,10 +72,6 @@
                 <div class="col-sm-4">
                     <select class="custom-select custom-select-sm" id="language-select">
                         <option value="English">目前仅支持英语</option>
-                        <!-- <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option> -->
                     </select>
                 </div>
             </div>

@@ -21,6 +21,7 @@
         "electron-packager": "^14.0.1"
     },
     "dependencies": {
-        "aws-sdk": "^2.524.0"
+        "aws-sdk": "^2.524.0",
+        "nconf": "^0.10.0"
     }
 }
