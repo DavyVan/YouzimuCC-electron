@@ -5,6 +5,10 @@ const fs = require('fs');
 const http = require('https');
 const {remote, ipcRenderer} = require('electron');
 
+function init() {
+    // not necessary for IBM Cloud, just for interface unity
+}
+
 function doRecognize(filename) {
     // debug
     // let result = require('./sampledata').trim();
@@ -80,5 +84,6 @@ function parseResult(result) {
 }
 
 module.exports = {
+    init: init,
     doRecognize: doRecognize
 };

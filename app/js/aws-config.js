@@ -18,5 +18,5 @@ module.exports = {
     language_available: [
         {name_cn: '目前仅支持英语', name: 'English'}
     ],
-    s3_bucket_name_input: 'youzimucc-input'
+    s3_bucket_name_prefix: 'youzimucc-input-'    // 'prefix-region'
 }

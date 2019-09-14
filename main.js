@@ -20,7 +20,7 @@ app.on('ready', function () {
     });
     mainWin.setMenu(null);
     mainWin.loadURL('file://' + __dirname + '/app/index.html');
-    // mainWin.webContents.openDevTools({ mode: "detach" });
+    mainWin.webContents.openDevTools({ mode: "detach" });
     // mainWin.on('focus', ()=>{
     //     if (progressWin !== null) {
     //         progressWin.focus();
@@ -142,5 +142,14 @@ app.on('ready', function () {
             mainWin.setEnabled(true);
         });
     });
-});
+
+    ipcMain.on('setting-changed', (event, provider)=>{
+        // forward directly to index window
+        mainWin.webContents.send('setting-changed', provider);
+    });
+
+    ipcMain.on('close-setting-window', ()=>{
+        settingsWin.close();
+    });
+});     // End app.on('ready')
 

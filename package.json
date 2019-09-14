@@ -21,6 +21,7 @@
         "electron-packager": "^14.0.1"
     },
     "dependencies": {
+        "animate.css": "^3.7.2",
         "aws-sdk": "^2.524.0",
         "nconf": "^0.10.0"
     }

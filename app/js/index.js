@@ -2,7 +2,9 @@
 
 const {ipcRenderer, remote} = require('electron');
 const {dialog} = remote;
-const requester = require('./js/ibm');
+const nconf = require('nconf').file({file: 'config.json'});
+var requester = require('./js/' + nconf.get('provider'));
+requester.init();
 
 var submitButtonEl = document.querySelector('#submit');
 var chooseFileButtonEl = document.querySelector('#choose-file');
@@ -55,4 +57,9 @@ ipcRenderer.on('result-closed', ()=>{
 
 settingsButtonEl.addEventListener('click', ()=>{
     ipcRenderer.send('open-settings');
+});
+
+ipcRenderer.on('setting-changed', (event, provider)=>{
+    requester = require('./js/' + provider);
+    requester.init();
 });
