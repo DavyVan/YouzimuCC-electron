@@ -16,7 +16,7 @@ module.exports = {
         {region_name: 'SouthAmerica_StPaul',        region_name_cn: '南美洲 (圣保罗)',              region: 'sa-east-1', endpoint: 'transcribe.sa-east-1.amazonaws.com'}
     ],
     language_available: [
-        {name_cn: '目前仅支持英语', name: 'English'}
+        {name_cn: '目前仅支持英语（美式）', name: 'en-US'}
     ],
     s3_bucket_name_prefix: 'youzimucc-input-'    // 'prefix-region'
 }
