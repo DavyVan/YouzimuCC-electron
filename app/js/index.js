@@ -1,14 +1,18 @@
 'use strict';
 
 const {ipcRenderer, remote} = require('electron');
-const {dialog} = remote;
-const requester = require('./js/ibm');
+const {dialog, app} = remote;
+const nconf = require('nconf').file({file: app.getAppPath() + '/config.json'});
+var requester = require('./js/' + nconf.get('provider'));
+requester.init();
 
 var submitButtonEl = document.querySelector('#submit');
 var chooseFileButtonEl = document.querySelector('#choose-file');
 var filenameTextEl = document.querySelector('#filename');
 var submitSpinnerEl = document.querySelector('#submit-spinner');
 var submitButtonTextEl = document.querySelector('#submit-button-text');
+var settingsButtonEl = document.querySelector('#settings-btn');
+var overlayDivEl = document.getElementById('overlay');
 var filename = '';
 
 // Disable submit button when start up
@@ -50,4 +54,21 @@ ipcRenderer.on('result-closed', ()=>{
     chooseFileButtonEl.removeAttribute('disabled');
     submitSpinnerEl.setAttribute('hidden', true);
     submitButtonTextEl.removeAttribute('hidden');
+});
+
+settingsButtonEl.addEventListener('click', ()=>{
+    ipcRenderer.send('open-settings');
+});
+
+ipcRenderer.on('setting-changed', (event, provider)=>{
+    requester = require('./js/' + provider);
+    requester.init();
+});
+
+ipcRenderer.on('disable-window', ()=>{
+    overlayDivEl.removeAttribute('hidden');
+});
+
+ipcRenderer.on('enable-window', ()=>{
+    overlayDivEl.setAttribute('hidden', 'true');
 });

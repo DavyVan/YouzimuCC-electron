@@ -1,11 +1,12 @@
 'use strict';
 
-const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, Menu, MenuItem } = require('electron');
 var screen = null;
 
 var mainWin = null;
 var progressWin = null;
 var resultWin = null;
+var settingsWin = null;
 
 app.on('ready', function () {
     mainWin = new BrowserWindow({
@@ -27,9 +28,16 @@ app.on('ready', function () {
         if (resultWin !== null) {
             resultWin.focus();
         }
+        if (settingsWin !== null) {
+            settingsWin.focus();
+        }
     });
 
     ipcMain.on('request-start', () => {
+        // mainWin.setEnabled(false);
+        mainWin.webContents.send('disable-window');
+        
+
         progressWin = new BrowserWindow({
             width: 300,
             height: 150,
@@ -51,6 +59,8 @@ app.on('ready', function () {
                 mainWin.webContents.send('request-abort');
                 mainWin.webContents.send('result-closed');      // reset index window
             }
+            // mainWin.setEnabled(true);
+            mainWin.webContents.send('enable-window');
         });
     });
 
@@ -78,6 +88,9 @@ app.on('ready', function () {
 
     ipcMain.on('show-result', (event, parsedData) => {
         // open result window
+        // mainWin.setEnabled(false);
+        mainWin.webContents.send('disable-window');
+
         screen = require('electron').screen;
         const { width, height } = screen.getPrimaryDisplay().workAreaSize;
         resultWin = new BrowserWindow({
@@ -102,6 +115,8 @@ app.on('ready', function () {
         resultWin.on('closed', ()=>{
             resultWin = null;
             mainWin.webContents.send('result-closed');
+            // mainWin.setEnabled(true);
+            mainWin.webContents.send('enable-window');
         });
 
         // close progress window
@@ -109,5 +124,39 @@ app.on('ready', function () {
         progressWin.close();
         progressWin = null;
     });
-});
+
+    ipcMain.on('open-settings', ()=>{
+        // mainWin.setEnabled(false);
+        mainWin.webContents.send('disable-window');
+        settingsWin = new BrowserWindow({
+            width: 700,
+            height: 600,
+            resizable: false,
+            webPreferences: {
+                nodeIntegration: true
+            },
+            parent: mainWin,
+            modal: false,
+            title: '设置'
+        });
+        settingsWin.setMenu(null);
+        settingsWin.loadURL('file://' + __dirname + '/app/settings.html');
+        // settingsWin.webContents.openDevTools({mode: 'detach'});
+
+        settingsWin.on('closed', ()=>{
+            settingsWin = null;
+            // mainWin.setEnabled(true);
+            mainWin.webContents.send('enable-window');
+        });
+    });
+
+    ipcMain.on('setting-changed', (event, provider)=>{
+        // forward directly to index window
+        mainWin.webContents.send('setting-changed', provider);
+    });
+
+    ipcMain.on('close-setting-window', ()=>{
+        settingsWin.close();
+    });
+});     // End app.on('ready')
 

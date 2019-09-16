@@ -2,8 +2,11 @@
 <head>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
     <style>
-        body .container {
+        /* body .container {
             margin-top: 25%
+        } */
+        #choose-file-div {
+            margin-top: 20%;
         }
 
         #submit {
@@ -20,12 +23,33 @@
         #submit-button-text {
             padding-top: 15px;
         }
+
+        #settings-div {
+            margin-top: 30px;
+        }
+
+        #overlay {
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: gainsboro;
+            opacity: 0.3;
+        }
     
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="input-group mb-3">
+        <div id="overlay" hidden></div>
+        <div class="row justify-content-md-end" id="settings-div">
+            <button type="button" class="btn btn-outline-info" id="settings-btn">设置</button>
+        </div>
+        <div class="input-group mb-3" id="choose-file-div">
             <div class="input-group-prepend">
                 <button class="btn btn-info" type="button" id="choose-file">选择文件...</button>
             </div>

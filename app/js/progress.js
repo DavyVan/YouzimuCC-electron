@@ -4,6 +4,7 @@ const {ipcRenderer} = require('electron');
 
 var textDivEl = document.querySelector('#text');
 var rxCounter = 0;
+var procCounter = 0;
 
 ipcRenderer.on('request-error', (event, msg)=>{
     console.log('request-error:'+msg);
@@ -11,7 +12,8 @@ ipcRenderer.on('request-error', (event, msg)=>{
 });
 
 ipcRenderer.on('request-sent', ()=>{
-    textDivEl.innerHTML = '云端处理中……';
+    procCounter++;
+    textDivEl.innerHTML = '云端处理中……' + procCounter;
 });
 
 ipcRenderer.on('request-receiving', ()=>{
