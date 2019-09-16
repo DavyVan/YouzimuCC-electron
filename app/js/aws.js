@@ -1,17 +1,19 @@
 'use strict';
 
-const {ipcRenderer} = require('electron');
+const {ipcRenderer, remote} = require('electron');
+const {app} = remote;
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
 const AWS = require('aws-sdk');
 const AWS_Credentials = require('./aws-credentials');
 const AWS_Config = require('./aws-config');
-const nconf = require('nconf').file({file: 'config.json'});
+const nconf = require('nconf').file({file: app.getAppPath() + '/config.json'});
 var regionInfo = null;
 var config = null;
 var s3 = null;
 var transcribe = null;
+const endPunctuations = ['.', '?', '!'];
 
 function init() {
     // get region & endpoint
@@ -38,6 +40,13 @@ function init() {
 }
 
 function doRecognize(filename) {
+    // debug
+    // let result = require('./asrOutput');
+    // result = parseResult(result);
+    // console.log(result);
+    // ipcRenderer.send('show-result', result);
+    // return;
+
     // 1. Upload file to S3
     // 1.1 but first check the bucket existence. 
     // If error (does not exist), show error message in progress window
@@ -108,27 +117,54 @@ function checkTranscriptionJobStatusAndHandle(error, data) {
                 // if (req.aborted) return;
                 ipcRenderer.send('request-received');
                 console.log('Response end.');
-                console.log(data);
-                // TODO:
-                // var parsedData = parseResult(resultRaw.trim());
-                // ipcRenderer.send('show-result', parsedData);
+                console.log(resultRaw);
+                var parsedData = parseResult(resultRaw);
+                console.log(parsedData);
+                ipcRenderer.send('show-result', parsedData);
             });
         });
     }
 }
 
-// TODO:
-// Input: result returned from IBM Cloud.{results=[{alternatives=[{timestamps=[[,,]], confidence, transcript}], final}], result_index}
+// Input: result returned from AWS Transcribe.{JobName, accountId, results={transcripts=[{transcript}], items=[start_time, end_time, alternatives=[{confidence, content}], type]}, status}
 // Output: parsed result. [{start, end, transcript}]
 function parseResult(result) {
-    // result = require('./sampledata').trim();
     let resultObj = JSON.parse(result).results;
+    let transcript = resultObj.transcripts[0].transcript;
+    let items = resultObj.items;
     var parsedResult = [];
-    for (let item in resultObj) {
-        item = resultObj[item].alternatives[0];
-        let timestamps = item.timestamps;
-        let transcript = item.transcript;
-        parsedResult.push({start: timestamps[0][1], end: timestamps[timestamps.length-1][2], transcript});
+    // Iterate through items, construct each sentence rather than split the 'transcript'
+    let sentence = '';
+    let start_time = null;
+    let end_time = null;
+    for (let item in items) {
+        item = items[item];
+        // if this word/item is the 1st word in current sentence, remember the start_time
+        if (sentence == '') {
+            start_time = item.start_time;
+        }
+        if (item.type == 'pronunciation') {
+            sentence += ' ' + item.alternatives[0].content;
+            end_time = item.end_time;
+        } else if (item.type == 'punctuation') {
+            if (item.alternatives[0].content == ',') {
+                sentence += item.alternatives[0].content;
+            } else if (endPunctuations.includes(item.alternatives[0].content)) {
+                // remember end_time
+                sentence += item.alternatives[0].content;
+                // add sentence to parsed results
+                sentence = sentence.trim();
+                parsedResult.push({start: start_time, end: end_time, transcript: sentence});
+                // reset sentence
+                sentence = '';
+                start_time = null;
+                end_time = null;
+            }
+        }
+    }   // end for
+    if (sentence != '') {
+        sentence = sentence.trim();
+        parsedResult.push({start: start_time, end: end_time, transcript: sentence});
     }
     return parsedResult;
 }

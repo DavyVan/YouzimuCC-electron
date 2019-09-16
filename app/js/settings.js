@@ -1,8 +1,9 @@
 'use strict';
 
-const {ipcRenderer} = require('electron');
+const {ipcRenderer, remote} = require('electron');
+const {app} = remote;
 const nconf = require('nconf');
-nconf.file({file: 'config.json'});
+nconf.file({file: app.getAppPath() + '/config.json'});
 var cloudConfig = null;
 const regionsPerLine = 2;
 

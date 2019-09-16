@@ -1,8 +1,8 @@
 'use strict';
 
 const {ipcRenderer, remote} = require('electron');
-const {dialog} = remote;
-const nconf = require('nconf').file({file: 'config.json'});
+const {dialog, app} = remote;
+const nconf = require('nconf').file({file: app.getAppPath() + '/config.json'});
 var requester = require('./js/' + nconf.get('provider'));
 requester.init();
 
