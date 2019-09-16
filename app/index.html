@@ -27,11 +27,25 @@
         #settings-div {
             margin-top: 30px;
         }
+
+        #overlay {
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: gainsboro;
+            opacity: 0.3;
+        }
     
     </style>
 </head>
 <body>
     <div class="container">
+        <div id="overlay" hidden></div>
         <div class="row justify-content-md-end" id="settings-div">
             <button type="button" class="btn btn-outline-info" id="settings-btn">设置</button>
         </div>

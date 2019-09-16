@@ -12,6 +12,7 @@ var filenameTextEl = document.querySelector('#filename');
 var submitSpinnerEl = document.querySelector('#submit-spinner');
 var submitButtonTextEl = document.querySelector('#submit-button-text');
 var settingsButtonEl = document.querySelector('#settings-btn');
+var overlayDivEl = document.getElementById('overlay');
 var filename = '';
 
 // Disable submit button when start up
@@ -62,4 +63,12 @@ settingsButtonEl.addEventListener('click', ()=>{
 ipcRenderer.on('setting-changed', (event, provider)=>{
     requester = require('./js/' + provider);
     requester.init();
+});
+
+ipcRenderer.on('disable-window', ()=>{
+    overlayDivEl.removeAttribute('hidden');
+});
+
+ipcRenderer.on('enable-window', ()=>{
+    overlayDivEl.setAttribute('hidden', 'true');
 });

@@ -20,21 +20,23 @@ app.on('ready', function () {
     });
     mainWin.setMenu(null);
     mainWin.loadURL('file://' + __dirname + '/app/index.html');
-    mainWin.webContents.openDevTools({ mode: "detach" });
-    // mainWin.on('focus', ()=>{
-    //     if (progressWin !== null) {
-    //         progressWin.focus();
-    //     }
-    //     if (resultWin !== null) {
-    //         resultWin.focus();
-    //     }
-    //     if (settingsWin !== null) {
-    //         settingsWin.focus();
-    //     }
-    // });
+    // mainWin.webContents.openDevTools({ mode: "detach" });
+    mainWin.on('focus', ()=>{
+        if (progressWin !== null) {
+            progressWin.focus();
+        }
+        if (resultWin !== null) {
+            resultWin.focus();
+        }
+        if (settingsWin !== null) {
+            settingsWin.focus();
+        }
+    });
 
     ipcMain.on('request-start', () => {
-        mainWin.setEnabled(false);
+        // mainWin.setEnabled(false);
+        mainWin.webContents.send('disable-window');
+        
 
         progressWin = new BrowserWindow({
             width: 300,
@@ -57,7 +59,8 @@ app.on('ready', function () {
                 mainWin.webContents.send('request-abort');
                 mainWin.webContents.send('result-closed');      // reset index window
             }
-            mainWin.setEnabled(true);
+            // mainWin.setEnabled(true);
+            mainWin.webContents.send('enable-window');
         });
     });
 
@@ -85,7 +88,8 @@ app.on('ready', function () {
 
     ipcMain.on('show-result', (event, parsedData) => {
         // open result window
-        mainWin.setEnabled(false);
+        // mainWin.setEnabled(false);
+        mainWin.webContents.send('disable-window');
 
         screen = require('electron').screen;
         const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -111,7 +115,8 @@ app.on('ready', function () {
         resultWin.on('closed', ()=>{
             resultWin = null;
             mainWin.webContents.send('result-closed');
-            mainWin.setEnabled(true);
+            // mainWin.setEnabled(true);
+            mainWin.webContents.send('enable-window');
         });
 
         // close progress window
@@ -121,7 +126,8 @@ app.on('ready', function () {
     });
 
     ipcMain.on('open-settings', ()=>{
-        mainWin.setEnabled(false);
+        // mainWin.setEnabled(false);
+        mainWin.webContents.send('disable-window');
         settingsWin = new BrowserWindow({
             width: 700,
             height: 600,
@@ -135,11 +141,12 @@ app.on('ready', function () {
         });
         settingsWin.setMenu(null);
         settingsWin.loadURL('file://' + __dirname + '/app/settings.html');
-        settingsWin.webContents.openDevTools({mode: 'detach'});
+        // settingsWin.webContents.openDevTools({mode: 'detach'});
 
         settingsWin.on('closed', ()=>{
             settingsWin = null;
-            mainWin.setEnabled(true);
+            // mainWin.setEnabled(true);
+            mainWin.webContents.send('enable-window');
         });
     });
 
