@@ -36,15 +36,10 @@ document.getElementById(region).setAttribute('checked', 'true');
 
 // list all available languages
 var languageSelect = document.getElementById('language-select');
-languageSelect.innerHTML = '';
+listLanguages(languageSelect, cloudConfig);
 
-var _html = '';
-for (var i = 1; i <= cloudConfig.language_available.length; i++) {
-    _html += '<option value="' + cloudConfig.language_available[i-1].name + '">' + cloudConfig.language_available[i-1].name_cn + '</option>'
-}
-languageSelect.innerHTML = _html;
-
-// Because there is only one language available now, so we do not need to set it.
+// set language option
+document.getElementById(language).setAttribute('selected', 'true');
 
 // When change language
 languageSelect.addEventListener('change', (event)=>{
@@ -53,7 +48,8 @@ languageSelect.addEventListener('change', (event)=>{
 });
 
 /****************************************
- * Change the region list when change the provider
+ * Change the region list and language list
+ * when change the provider
  ****************************************/
 var providerInputs = document.getElementsByName('cloudProvider');
 providerInputs.forEach(element => {     // for each provider radio
@@ -61,6 +57,9 @@ providerInputs.forEach(element => {     // for each provider radio
         if (event.target.value != provider) {       // if provider has been changed
             cloudConfig = require('./js/' + event.target.value + '-config');
             listRegions(regionRadioDiv, cloudConfig);
+            listLanguages(languageSelect, cloudConfig);
+            region = null;
+            language = null;
             provider = event.target.value;      // update global var
         }
     });
@@ -82,6 +81,15 @@ document.getElementById('confirm-btn').addEventListener('click', (event)=>{
     if (region == null) {
         var noticeDiv = document.getElementById('notice-div');
         noticeDiv.innerHTML = '请您选择一个服务器位置';
+        noticeDiv.classList.add('animated', 'shake');
+        noticeDiv.addEventListener('animationend', (event)=>{
+            noticeDiv.classList.remove('animated', 'shake');
+        });
+        return;
+    }
+    if (language == null || language == 'none') {
+        var noticeDiv = document.getElementById('notice-div');
+        noticeDiv.innerHTML = '请您选择要识别的语言';
         noticeDiv.classList.add('animated', 'shake');
         noticeDiv.addEventListener('animationend', (event)=>{
             noticeDiv.classList.remove('animated', 'shake');
@@ -131,6 +139,14 @@ function listRegions(containerEl, cloudConfig) {
         if (i % regionsPerLine == 0) {
             _html += '</div>';
         }
+    }
+    containerEl.innerHTML = _html;
+}
+
+function listLanguages(containerEl, cloudConfig) {
+    var _html = '<option id="none" value="none">请选择语言</option>';
+    for (var i = 1; i <= cloudConfig.language_available.length; i++) {
+        _html += '<option id="' + cloudConfig.language_available[i - 1].name + '" value="' + cloudConfig.language_available[i - 1].name + '">' + cloudConfig.language_available[i - 1].name_cn + '</option>'
     }
     containerEl.innerHTML = _html;
 }
