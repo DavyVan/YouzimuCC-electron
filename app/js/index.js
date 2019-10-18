@@ -2,6 +2,7 @@
 
 const {ipcRenderer, remote} = require('electron');
 const {dialog, app} = remote;
+const path = require('path');
 const nconf = require('nconf').file({file: app.getAppPath() + '/config.json'});
 var requester = require('./js/' + nconf.get('provider'));
 requester.init();
@@ -14,6 +15,7 @@ var submitButtonTextEl = document.querySelector('#submit-button-text');
 var settingsButtonEl = document.querySelector('#settings-btn');
 var overlayDivEl = document.getElementById('overlay');
 var filename = '';
+const audiofmt = ['mp3'/*, 'flac', 'ogg', 'wav', 'webm'*/];
 
 // Disable submit button when start up
 submitButtonEl.setAttribute('disabled', 'true');
@@ -23,7 +25,7 @@ chooseFileButtonEl.addEventListener('click', ()=>{
     filename = dialog.showOpenDialog(remote.getCurrentWindow(), {
         title: '选择需要识别的音频文件',
         buttonLabel: '选择',
-        filters: [{name: '支持的音频', extensions: ['mp3'/*, 'flac', 'ogg', 'wav', 'webm'*/]}],
+        filters: [{name: '支持的音频', extensions: audiofmt}],
         properties: ['openFile']
     });
     console.log(filename);
@@ -72,3 +74,48 @@ ipcRenderer.on('disable-window', ()=>{
 ipcRenderer.on('enable-window', ()=>{
     overlayDivEl.setAttribute('hidden', 'true');
 });
+
+// Drag and drop
+var dragndropDivEl = document.getElementById('dragndrop');
+var dragndropTextDivEl = document.getElementById('dragndrop-text');
+
+dragndropDivEl.ondragover = () => {
+    return false;
+};
+
+dragndropDivEl.ondragleave = () => {
+    return false;
+};
+
+dragndropDivEl.ondragend = () => {
+    return false;
+};
+dragndropDivEl.ondrop = (event)=>{
+    event.preventDefault();
+
+    let filepath = event.dataTransfer.files[0].path;
+    let filenum = event.dataTransfer.files.length;
+
+    // if drag multiple files
+    if (filenum > 1) {
+        dragndropTextDivEl.innerHTML = '您只能选择一个文件';
+        dragndropTextDivEl.classList.add('animated', 'shake');
+        dragndropTextDivEl.addEventListener('animationend', (event)=>{
+            dragndropTextDivEl.classList.remove('animated', 'shake');
+        });
+        return;
+    };
+
+    // if the file format is not supported
+    if (audiofmt.indexOf(path.extname(filepath).toLowerCase().substring(1)) == -1) {
+        dragndropTextDivEl.innerHTML = '文件格式不支持，请选择' + audiofmt.toString();
+        dragndropTextDivEl.classList.add('animated', 'shake');
+        dragndropTextDivEl.addEventListener('animationend', (event)=>{
+            dragndropTextDivEl.classList.remove('animated', 'shake');
+        });
+        return;
+    };
+    
+    filenameTextEl.setAttribute('placeholder', filepath);
+    submitButtonEl.removeAttribute('disabled');
+};
