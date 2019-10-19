@@ -7,6 +7,7 @@ It would be used by Youzimu (柚子木字幕组) to improve efficiency of daily 
 * Supported languages: 
     * with IBM Cloud: English (US&UK), Modern Standard Arabic, Brazilian Portuguese, Mandarin Chinese, French, Germen, Japanese, Korean, Spanish.
     * with Amazon AWS: English (US&UK&India), Modern Standard Arabic, French, Germen, Hindi, Italian, Korean, Brazilian Portuguese, Spanish.
+* Supported audio file format: mp3, wav, flac.
 * For Amazon AWS, we support multiple locations that can help user gain more stable and fluent experience.
 * Export results to SRT subtitle format.
 * Choose audio file by conveniently "drag & drop"
