@@ -16,13 +16,13 @@
         "dmg": "electron-installer-dmg ./build/YouzimuCC-darwin-x64/YouzimuCC.app YouzimuCC"
     },
     "devDependencies": {
-        "electron": "^5.0.6",
+        "electron": "^5.0.11",
         "electron-installer-dmg": "^3.0.0",
-        "electron-packager": "^14.0.1"
+        "electron-packager": "^14.0.6"
     },
     "dependencies": {
         "animate.css": "^3.7.2",
-        "aws-sdk": "^2.524.0",
+        "aws-sdk": "^2.553.0",
         "nconf": "^0.10.0"
     }
 }

@@ -34,9 +34,9 @@ function doRecognize(filename) {
         host: 'gateway-tok.watsonplatform.net',
         method: 'POST',
         path: '/speech-to-text/api/v1/recognize?timestamps=true&smart_formatting=true&model=' + language_model,
-        headers: {
-            'Content-Type': 'audio/mp3'
-        },
+        // headers: {
+        //     'Content-Type': 'audio/mp3'
+        // },
         auth: 'apikey:' + IBM_Credentials.iam_apikey,
     };
 

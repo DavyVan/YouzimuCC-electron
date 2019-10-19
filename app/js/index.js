@@ -15,7 +15,7 @@ var submitButtonTextEl = document.querySelector('#submit-button-text');
 var settingsButtonEl = document.querySelector('#settings-btn');
 var overlayDivEl = document.getElementById('overlay');
 var filename = '';
-const audiofmt = ['mp3'/*, 'flac', 'ogg', 'wav', 'webm'*/];
+const audiofmt = ['mp3', 'flac', 'wav'];
 
 // Disable submit button when start up
 submitButtonEl.setAttribute('disabled', 'true');
@@ -27,17 +27,17 @@ chooseFileButtonEl.addEventListener('click', ()=>{
         buttonLabel: '选择',
         filters: [{name: '支持的音频', extensions: audiofmt}],
         properties: ['openFile']
-    });
+    })[0];
     console.log(filename);
     if (filename !== undefined) {
-        filenameTextEl.setAttribute('placeholder', filename[0]);
+        filenameTextEl.setAttribute('placeholder', filename);
         submitButtonEl.removeAttribute('disabled');
     }
 });
 
 // submit button
 submitButtonEl.addEventListener('click', ()=>{
-    console.log('Submit with ' + filename[0]);
+    console.log('Submit with ' + filename);
 
     // Disable the button and show spinner
     submitButtonEl.setAttribute('disabled', true);
@@ -48,7 +48,7 @@ submitButtonEl.addEventListener('click', ()=>{
     // Tell main process to show the progress window
     ipcRenderer.send('request-start');
 
-    requester.doRecognize(filename[0]);
+    requester.doRecognize(filename);
 });
 
 ipcRenderer.on('result-closed', ()=>{
@@ -116,6 +116,7 @@ dragndropDivEl.ondrop = (event)=>{
         return;
     };
     
+    filename = filepath;
     filenameTextEl.setAttribute('placeholder', filepath);
     submitButtonEl.removeAttribute('disabled');
 };
