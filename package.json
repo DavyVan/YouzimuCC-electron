@@ -13,7 +13,7 @@
         "zip": "electron-packager . YouzimuCC --platform=win32 --arch=x64 --overwrite --out=./build/ --icon=./app/img/icon-dark.ico",
         "wix": "",
         "app": "electron-packager . YouzimuCC --platform=darwin --arch=x64 --overwrite --out=./build/ --icon=./app/img/icon-dark.icns",
-        "dmg": "electron-installer-dmg ./build/YouzimuCC-darwin-x64/YouzimuCC.app YouzimuCC"
+        "dmg": "electron-installer-dmg --overwrite ./build/YouzimuCC-darwin-x64/YouzimuCC.app YouzimuCC"
     },
     "devDependencies": {
         "electron": "^5.0.11",
