@@ -20,7 +20,7 @@ app.on('ready', function () {
     });
     mainWin.setMenu(null);
     mainWin.loadURL('file://' + __dirname + '/app/index.html');
-    mainWin.webContents.openDevTools({ mode: "detach" });
+    // mainWin.webContents.openDevTools({ mode: "detach" });
     mainWin.on('focus', ()=>{
         if (progressWin !== null) {
             progressWin.focus();
@@ -157,7 +157,7 @@ app.on('ready', function () {
         });
         settingsWin.setMenu(null);
         settingsWin.loadURL('file://' + __dirname + '/app/settings.html');
-        settingsWin.webContents.openDevTools({mode: 'detach'});
+        // settingsWin.webContents.openDevTools({mode: 'detach'});
 
         settingsWin.on('closed', ()=>{
             settingsWin = null;
