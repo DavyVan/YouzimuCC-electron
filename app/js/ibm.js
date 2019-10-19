@@ -1,12 +1,23 @@
 'use strict';
 
 const IBM_Credentials = require('./ibm-credentials');
+const IBM_Config = require('./ibm-config');
 const fs = require('fs');
 const http = require('https');
 const {remote, ipcRenderer} = require('electron');
+const nconf = require('nconf').file({file: app.getAppPath() + '/config.json'});
+var language = null;
+var language_model = null;
 
 function init() {
-    // not necessary for IBM Cloud, just for interface unity
+    // get language from config
+    nconf.load();
+    language = nconf.get('language');
+    IBM_Config.language_available.forEach((item)=>{
+        if (item.name == language) {
+            language_model = item.model;
+        }
+    });
 }
 
 function doRecognize(filename) {
@@ -22,10 +33,10 @@ function doRecognize(filename) {
     let options = {
         host: 'gateway-tok.watsonplatform.net',
         method: 'POST',
-        path: '/speech-to-text/api/v1/recognize?timestamps=true&smart_formatting=true',
-        headers: {
-            'Content-Type': 'audio/mp3'
-        },
+        path: '/speech-to-text/api/v1/recognize?timestamps=true&smart_formatting=true&model=' + language_model,
+        // headers: {
+        //     'Content-Type': 'audio/mp3'
+        // },
         auth: 'apikey:' + IBM_Credentials.iam_apikey,
     };
 

@@ -112,6 +112,22 @@ app.on('ready', function () {
         });
         // resultWin.webContents.openDevTools({ mode: 'detach' });
 
+        resultWin.on('close', (event)=>{
+            // event.preventDefault();
+            let t = dialog.showMessageBox(resultWin, {
+                type: 'warning',
+                buttons: ['取消', '确认关闭'],
+                defaultId: 0,
+                title: '关闭确认',
+                message: '确认要关闭吗',
+                detail: '您不能再次显示结果，除非重新提交任务',
+                cancelId: 0
+            });
+            if (t == 0) {
+                event.preventDefault();
+            }
+        });
+
         resultWin.on('closed', ()=>{
             resultWin = null;
             mainWin.webContents.send('result-closed');

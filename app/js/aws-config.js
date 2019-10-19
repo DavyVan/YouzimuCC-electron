@@ -16,7 +16,17 @@ module.exports = {
         {region_name: 'SouthAmerica_StPaul',        region_name_cn: '南美洲 (圣保罗)',              region: 'sa-east-1', endpoint: 'transcribe.sa-east-1.amazonaws.com'}
     ],
     language_available: [
-        {name_cn: '目前仅支持英语（美式）', name: 'en-US'}
+        {name_cn: '英语（美国）', name: 'en-US'},
+        {name_cn: '英语（英国）', name: 'en-GB'},
+        {name_cn: '英语（印度）', name: 'en-IN'},
+        {name_cn: '阿拉伯语（现代标准）', name: 'ar-SA'},
+        {name_cn: '法语', name: 'fr-FR'},
+        {name_cn: '德语', name: 'de-DE'},
+        {name_cn: '印地语（印度）', name: 'hi-IN'},
+        {name_cn: '意大利语', name: 'it-IT'},
+        {name_cn: '韩语', name: 'ko-KR'},
+        {name_cn: '葡萄牙语（巴西）', name: 'pt-BR'},
+        {name_cn: '西班牙语', name: 'es-ES'}
     ],
     s3_bucket_name_prefix: 'youzimucc-input-'    // 'prefix-region'
 }
