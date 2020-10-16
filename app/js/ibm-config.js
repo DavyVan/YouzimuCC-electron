@@ -1,6 +1,6 @@
 module.exports = {
     region_available: [
-        {region_name: 'Tokyo',               region_name_cn: '东京',            region: 'tokyo', endpoint: 'https://gateway-tok.watsonplatform.net/speech-to-text/api'}
+        {region_name: 'Tokyo',               region_name_cn: '东京',            region: 'tokyo', endpoint: 'https://api.jp-tok.speech-to-text.watson.cloud.ibm.com/instances/77310fbc-007b-4d67-b9cb-0c868d29034f'}
     ],
     language_available: [
         {name_cn: '英语（美国）', name: 'English (US)', model: 'en-US_BroadbandModel'},
